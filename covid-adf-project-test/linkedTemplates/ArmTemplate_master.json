@@ -1,0 +1,125 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "covid-adf-project-test"
+		},
+		"covidClusterDev_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'covidClusterDev'"
+		},
+		"ls_ablob_coviddata_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_ablob_coviddata'"
+		},
+		"ls_adls_coviddata_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_adls_coviddata'"
+		},
+		"sqlCovidDB_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'sqlCovidDB'"
+		},
+		"ls_adls_coviddata_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://covidstoragedatalaketest.dfs.core.windows.net/"
+		},
+		"ls_http_ecdc_file_csv_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().file_url}"
+		},
+		"sqlCovidDB_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "covid-srv-test123.database.windows.net"
+		},
+		"sqlCovidDB_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "covid-db"
+		},
+		"sqlCovidDB_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "nacia"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "covid-adf-project-test_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"covidClusterDev_accessToken": {
+						"value": "[parameters('covidClusterDev_accessToken')]"
+					},
+					"ls_ablob_coviddata_connectionString": {
+						"value": "[parameters('ls_ablob_coviddata_connectionString')]"
+					},
+					"ls_adls_coviddata_accountKey": {
+						"value": "[parameters('ls_adls_coviddata_accountKey')]"
+					},
+					"sqlCovidDB_password": {
+						"value": "[parameters('sqlCovidDB_password')]"
+					},
+					"ls_adls_coviddata_properties_typeProperties_url": {
+						"value": "[parameters('ls_adls_coviddata_properties_typeProperties_url')]"
+					},
+					"ls_http_ecdc_file_csv_properties_typeProperties_url": {
+						"value": "[parameters('ls_http_ecdc_file_csv_properties_typeProperties_url')]"
+					},
+					"sqlCovidDB_properties_typeProperties_server": {
+						"value": "[parameters('sqlCovidDB_properties_typeProperties_server')]"
+					},
+					"sqlCovidDB_properties_typeProperties_database": {
+						"value": "[parameters('sqlCovidDB_properties_typeProperties_database')]"
+					},
+					"sqlCovidDB_properties_typeProperties_userName": {
+						"value": "[parameters('sqlCovidDB_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "covid-adf-project-test_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'covid-adf-project-test_ArmTemplate_0')]"
+			]
+		}
+	]
+}

@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "covid-adf-project-test"
+		},
+		"covidClusterDev_accessToken": {
+			"value": ""
+		},
+		"ls_ablob_coviddata_connectionString": {
+			"value": ""
+		},
+		"ls_adls_coviddata_accountKey": {
+			"value": ""
+		},
+		"sqlCovidDB_password": {
+			"value": ""
+		},
+		"ls_adls_coviddata_properties_typeProperties_url": {
+			"value": "https://covidstoragedatalaketest.dfs.core.windows.net/"
+		},
+		"ls_http_ecdc_file_csv_properties_typeProperties_url": {
+			"value": "@{linkedService().file_url}"
+		},
+		"sqlCovidDB_properties_typeProperties_server": {
+			"value": "covid-srv-test123.database.windows.net"
+		},
+		"sqlCovidDB_properties_typeProperties_database": {
+			"value": "covid-db"
+		},
+		"sqlCovidDB_properties_typeProperties_userName": {
+			"value": "nacia"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
