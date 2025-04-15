@@ -1,0 +1,21 @@
+{
+	"name": "ds_http_config_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_ablob_coviddata",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "config_http",
+				"folderPath": "config",
+				"container": "root"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

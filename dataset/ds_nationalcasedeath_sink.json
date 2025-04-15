@@ -1,0 +1,31 @@
+{
+	"name": "ds_nationalcasedeath_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_coviddata",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "nationalcasedeath_transformed/nationalcasedeath_transformed.csv",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "ecdc_covid19_data",
+					"type": "Expression"
+				},
+				"fileSystem": "trusted"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

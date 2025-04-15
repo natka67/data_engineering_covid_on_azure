@@ -1,0 +1,98 @@
+{
+	"name": "pl_transform_data",
+	"properties": {
+		"activities": [
+			{
+				"name": "transform_hospitals_data",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_transform_hospital_transmission",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "transform_testing",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "transform_population",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_transform_testing",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "transform_population",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "transform_hospitals_data",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_transform_population",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "transform_cases_deaths",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "transform_testing",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_transform_cases_deaths",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "master_pipelines"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-04-06T10:31:45Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

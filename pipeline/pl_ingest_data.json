@@ -1,0 +1,75 @@
+{
+	"name": "pl_ingest_data",
+	"properties": {
+		"activities": [
+			{
+				"name": "ingest_population",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_ingest_covid_population_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ingest_ecdc_data",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "ingest_population",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_ingest_ecdc_http_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ingest_mapping_tables",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "ingest_ecdc_data",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_ingest_maaping_tables",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "master_pipelines"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-04-06T10:47:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

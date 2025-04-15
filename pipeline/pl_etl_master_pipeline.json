@@ -1,0 +1,52 @@
+{
+	"name": "pl_etl_master_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "ingest_data",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_ingest_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "transform_data",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "ingest_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_transform_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "master_pipelines"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-04-06T10:36:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
